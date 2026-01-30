@@ -1,0 +1,262 @@
+<!-- pages/assignment/assignment.wxml -->
+<view class="assignment-page">
+  <!-- 顶部搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input">
+      <text class="iconfont icon-search">🔍</text>
+      <input 
+        placeholder="搜索作业或课程" 
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        placeholder-class="placeholder"
+      />
+    </view>
+    <view class="filter-btn" bindtap="showFilterPanel">
+      <text class="iconfont icon-filter">筛选</text>
+    </view>
+  </view>
+
+  <!-- 筛选标签 -->
+  <scroll-view class="filter-tags" scroll-x="true">
+    <view 
+      class="filter-tag {{activeFilter === 'all' ? 'active' : ''}}"
+      bindtap="changeFilter"
+      data-filter="all"
+    >
+      全部
+    </view>
+    <view 
+      class="filter-tag {{activeFilter === 'pending' ? 'active' : ''}}"
+      bindtap="changeFilter"
+      data-filter="pending"
+    >
+      未完成
+    </view>
+    <view 
+      class="filter-tag {{activeFilter === 'inProgress' ? 'active' : ''}}"
+      bindtap="changeFilter"
+      data-filter="inProgress"
+    >
+      进行中
+    </view>
+    <view 
+      class="filter-tag {{activeFilter === 'completed' ? 'active' : ''}}"
+      bindtap="changeFilter"
+      data-filter="completed"
+    >
+      已完成
+    </view>
+    <view 
+      class="filter-tag {{activeFilter === 'overdue' ? 'active' : ''}}"
+      bindtap="changeFilter"
+      data-filter="overdue"
+    >
+      已过期
+    </view>
+  </scroll-view>
+
+  <!-- 作业列表 -->
+  <scroll-view class="assignment-list" scroll-y="true">
+    <!-- 今日截止 -->
+    <view class="time-section" wx:if="{{todayAssignments.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">📅 今日截止 ({{todayAssignments.length}})</text>
+        <text class="section-time">今天 {{todayDate}}</text>
+      </view>
+      <view class="assignments-group">
+        <view 
+          class="assignment-card {{item.priorityClass}}"
+          wx:for="{{todayAssignments}}"
+          wx:key="id"
+          data-id="{{item.id}}"
+          bindtap="viewAssignmentDetail"
+          bindlongpress="onCardLongPress"
+          data-index="{{index}}"
+        >
+          <view class="card-header">
+            <view class="assignment-title">{{item.title}}</view>
+            <view class="priority-badge priority-{{item.priority}}">
+              {{['低','中','高'][item.priority]}}
+            </view>
+          </view>
+          <view class="card-body">
+            <view class="course-info">
+              <text class="iconfont icon-book">📚</text>
+              <text class="course-name">{{item.courseName || '未分类'}}</text>
+            </view>
+            <view class="due-info">
+              <text class="iconfont icon-time">⏰</text>
+              <text class="due-text">截止：{{item.formattedDueTime}}</text>
+              <text class="time-left {{item.urgentClass}}">
+                {{item.timeLeftText}}
+              </text>
+            </view>
+          </view>
+          <view class="card-footer">
+            <view class="status-tag status-{{item.status}}">
+              {{['未开始','进行中','已完成'][item.status]}}
+            </view>
+            <view class="action-buttons">
+              <button 
+                class="btn-quick-action" 
+                size="mini"
+                data-id="{{item.id}}"
+                bindtap="markAsComplete"
+                catchtap
+                wx:if="{{item.status !== 2}}"
+              >
+                标记完成
+              </button>
+              <button 
+                class="btn-quick-action" 
+                size="mini" 
+                plain
+                data-id="{{item.id}}"
+                bindtap="editAssignment"
+                catchtap
+              >
+                编辑
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 本周作业 - 使用完整的结构 -->
+    <view class="time-section" wx:if="{{weekAssignments.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">🗓️ 本周作业 ({{weekAssignments.length}})</text>
+        <text class="section-time">本周剩余</text>
+      </view>
+      <view class="assignments-group">
+        <view 
+          class="assignment-card {{item.priorityClass}}"
+          wx:for="{{weekAssignments}}"
+          wx:key="id"
+          data-id="{{item.id}}"
+          bindtap="viewAssignmentDetail"
+        >
+          <view class="card-header">
+            <view class="assignment-title">{{item.title}}</view>
+            <view class="priority-badge priority-{{item.priority}}">
+              {{['低','中','高'][item.priority]}}
+            </view>
+          </view>
+          <view class="card-body">
+            <view class="course-info">
+              <text class="iconfont icon-book">📚</text>
+              <text class="course-name">{{item.courseName || '未分类'}}</text>
+            </view>
+            <view class="due-info">
+              <text class="iconfont icon-time">⏰</text>
+              <text class="due-text">截止：{{item.formattedDueTime}}</text>
+              <text class="time-left {{item.urgentClass}}">
+                {{item.timeLeftText}}
+              </text>
+            </view>
+          </view>
+          <view class="card-footer">
+            <view class="status-tag status-{{item.status}}">
+              {{['未开始','进行中','已完成'][item.status]}}
+            </view>
+            <view class="action-buttons">
+              <button 
+                class="btn-quick-action" 
+                size="mini"
+                data-id="{{item.id}}"
+                bindtap="markAsComplete"
+                catchtap
+                wx:if="{{item.status !== 2}}"
+              >
+                标记完成
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 后续作业 -->
+    <view class="time-section" wx:if="{{futureAssignments.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">📋 后续作业 ({{futureAssignments.length}})</text>
+      </view>
+      <view class="assignments-group">
+        <view 
+          class="assignment-card {{item.priorityClass}}"
+          wx:for="{{futureAssignments}}"
+          wx:key="id"
+          data-id="{{item.id}}"
+          bindtap="viewAssignmentDetail"
+        >
+          <view class="card-header">
+            <view class="assignment-title">{{item.title}}</view>
+            <view class="priority-badge priority-{{item.priority}}">
+              {{['低','中','高'][item.priority]}}
+            </view>
+          </view>
+          <view class="card-body">
+            <view class="course-info">
+              <text class="iconfont icon-book">📚</text>
+              <text class="course-name">{{item.courseName || '未分类'}}</text>
+            </view>
+            <view class="due-info">
+              <text class="iconfont icon-time">⏰</text>
+              <text class="due-text">截止：{{item.formattedDueTime}}</text>
+              <text class="time-left {{item.urgentClass}}">
+                {{item.timeLeftText}}
+              </text>
+            </view>
+          </view>
+          <view class="card-footer">
+            <view class="status-tag status-{{item.status}}">
+              {{['未开始','进行中','已完成'][item.status]}}
+            </view>
+            <view class="action-buttons">
+              <button 
+                class="btn-quick-action" 
+                size="mini"
+                data-id="{{item.id}}"
+                bindtap="markAsComplete"
+                catchtap
+                wx:if="{{item.status !== 2}}"
+              >
+                标记完成
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{showEmptyState}}">
+      <view class="empty-image">📝</view>
+      <text class="empty-title">暂无作业</text>
+      <text class="empty-desc">添加你的第一个作业任务吧</text>
+      <button class="btn-primary" bindtap="goToAddAssignment">
+        <text class="iconfont icon-add">+</text>
+        添加作业
+      </button>
+    </view>
+  </scroll-view>
+
+  <!-- 添加按钮 -->
+  <view class="fab-container">
+    <button class="fab-button" bindtap="goToAddAssignment">
+      <text class="fab-icon">+</text>
+    </button>
+  </view>
+
+  <!-- 筛选面板 -->
+  <view class="filter-panel" wx:if="{{showFilterPanel}}">
+    <view class="filter-content">
+      <view class="filter-header">
+        <text class="filter-title">筛选条件</text>
+        <text class="iconfont icon-close" bindtap="hideFilterPanel">✕</text>
+      </view>
+      <!-- 筛选选项 -->
+    </view>
+  </view>
+</view>

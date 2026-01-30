@@ -1,0 +1,89 @@
+<!-- pages/index/index.wxml -->
+<view class="page-container">
+  <!-- 日历区域 -->
+  <view class="calendar-section">
+    <picker mode="date" value="{{currentDate}}" bindchange="onDateChange">
+      <view class="date-picker">
+        <text class="date">{{currentDate}}</text>
+        <text class="iconfont icon-calendar"></text>
+      </view>
+    </picker>
+    
+    <calendar 
+      bind:dayClick="onDateChange"
+      markedDates="{{markedDates}}"
+      config="{{calendarConfig}}"
+    />
+  </view>
+
+  <!-- 当日作业列表 -->
+  <view class="assignments-section">
+    <view class="section-header">
+      <text class="section-title">今日作业 ({{assignments.length}})</text>
+      <button class="add-btn" bindtap="goToAddAssignment">
+        <text class="iconfont icon-add"></text>
+        添加
+      </button>
+    </view>
+
+    <view class="assignments-list" wx:if="{{assignments.length > 0}}">
+      <view 
+        class="assignment-item" 
+        wx:for="{{assignments}}" 
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="goToAssignmentDetail"
+      >
+        <view class="assignment-header">
+          <view class="assignment-title">{{item.title}}</view>
+          <view 
+            class="priority-badge" 
+            style="background-color: {{getPriorityColor(item.priority)}}"
+          >
+            {{['低','中','高'][item.priority] || '未知'}}
+          </view>
+        </view>
+        
+        <view class="assignment-info">
+          <text class="course-name">{{item.courseName || '未分类'}}</text>
+          <text class="due-date">截止: {{item.dueDate}}</text>
+        </view>
+        
+        <view class="assignment-actions">
+          <button 
+            class="complete-btn" 
+            data-id="{{item.id}}"
+            bindtap="markAsComplete"
+            catchtap
+            wx:if="{{item.status === 0}}"
+          >
+            标记完成
+          </button>
+          <text class="status-done" wx:else>已完成</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:else>
+      <image src="/assets/icons/empty.png" class="empty-icon"></image>
+      <text class="empty-text">今天没有作业，休息一下吧！</text>
+      <button class="primary-btn" bindtap="goToAddAssignment">添加作业</button>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="quick-actions">
+    <view class="action-item" bindtap="goToAddAssignment">
+      <view class="action-icon add-icon">+</view>
+      <text>快速添加</text>
+    </view>
+    <view class="action-item" bindtap="scanAssignment">
+      <view class="action-icon scan-icon">📷</view>
+      <text>扫码添加</text>
+    </view>
+    <view class="action-item" bindtap="viewAllAssignments">
+      <view class="action-icon list-icon">📋</view>
+      <text>全部作业</text>
+    </view>
+  </view>
+</view>
