@@ -1,0 +1,383 @@
+/* pages/courses/courses.wxss - 修复对齐问题 */
+
+.courses-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 100rpx;
+}
+
+/* 头部 - 保持不变 */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+  background-color: white;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.header-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.btn-add {
+  background-color: #1890ff;
+  color: white;
+  border-radius: 8rpx;
+  padding: 10rpx 20rpx;
+  font-size: 26rpx;
+  line-height: 1;
+  border: none;
+}
+
+/* 导入功能区 - 保持30rpx边距 */
+.import-section {
+  background: linear-gradient(135deg, #1890ff, #52c41a);
+  padding: 20rpx 30rpx;  /* 左右30rpx */
+  color: white;
+}
+
+.section-title {
+  font-size: 26rpx;
+  margin-bottom: 15rpx;
+  font-weight: 500;
+}
+
+.import-buttons {
+  display: flex;
+  gap: 15rpx;
+}
+
+.btn-import-ocr, .btn-import-text {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  border-radius: 10rpx;
+  padding: 15rpx;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 22rpx;
+  backdrop-filter: blur(10rpx);
+}
+
+.import-icon {
+  font-size: 36rpx;
+}
+
+/* 搜索栏 - 同样30rpx边距 */
+.search-section {
+  padding: 15rpx 30rpx;  /* 左右30rpx */
+  background-color: white;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  height: 70rpx;
+  padding: 0 25rpx 0 60rpx;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 35rpx;
+  font-size: 26rpx;
+  color: #333;
+  background-color: #fafafa;
+  width: 100%;  /* 确保占满宽度 */
+}
+
+.search-icon {
+  position: absolute;
+  left: 25rpx;
+  color: #999;
+  font-size: 26rpx;
+}
+
+/* 课程列表 - 修复：统一30rpx边距 */
+.courses-list {
+  height: calc(100vh - 320rpx);
+  padding: 15rpx 17rpx;  /* 关键：统一30rpx边距 */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;  /* 改为stretch，让子元素撑满 */
+}
+
+/* 课程卡片 - 修复：自动宽度，与父容器对齐 */
+.course-card {
+  display: flex;
+  background-color: white;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+  min-height: 180rpx;
+  max-height: 200rpx;
+  transition: all 0.2s;
+  transform: translateY(0);
+  width: 95%;  /* 关键：占满父容器的100% */
+  box-sizing: border-box;  /* 关键：包含内边距和边框在宽度内 */
+}
+
+.course-card:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.12);
+}
+
+.course-color {
+  width: 6rpx;
+  min-height: 100%;
+  flex-shrink: 0;
+}
+
+.course-content {
+  flex: 1;
+  padding: 20rpx 25rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;  /* 确保内边距计算正确 */
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15rpx;
+}
+
+.course-name {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-right: 20rpx;
+  word-break: break-word;
+  line-height: 1.3;
+  max-height: 40rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.btn-edit {
+  background-color: #f5f5f5;
+  color: #666;
+  border-radius: 6rpx;
+  padding: 6rpx 12rpx;
+  font-size: 22rpx;
+  line-height: 1;
+  border: none;
+  white-space: nowrap;
+  min-width: 60rpx;
+  height: 35rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: 0.8;
+}
+
+.btn-edit:active {
+  background-color: #e8e8e8;
+  opacity: 1;
+}
+
+.course-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-bottom: 15rpx;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666;
+  gap: 6rpx;
+  line-height: 1.2;
+  background-color: #f9f9f9;
+  padding: 4rpx 10rpx;
+  border-radius: 4rpx;
+}
+
+.detail-icon {
+  font-size: 20rpx;
+  opacity: 0.8;
+}
+
+.course-stats {
+  display: flex;
+  gap: 25rpx;
+  padding-top: 15rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 20rpx;
+  color: #999;
+  margin-bottom: 4rpx;
+  white-space: nowrap;
+}
+
+.stat-value {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2;
+}
+
+.stat-value.completed {
+  color: #52c41a;
+}
+
+.stat-value.pending {
+  color: #faad14;
+}
+
+/* 空状态 - 调整边距保持一致 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 30rpx;  /* 左右30rpx */
+  box-sizing: border-box;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.5;
+}
+
+.empty-title {
+  font-size: 32rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  font-weight: 500;
+}
+
+.empty-desc {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 40rpx;
+}
+
+.empty-actions {
+  display: flex;
+  gap: 20rpx;
+  justify-content: center;
+}
+
+.btn-empty-add, .btn-empty-import {
+  padding: 18rpx 35rpx;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.btn-empty-add {
+  background-color: #1890ff;
+  color: white;
+}
+
+.btn-empty-import {
+  background-color: white;
+  color: #1890ff;
+  border: 2rpx solid #1890ff;
+}
+
+/* 底部提示 - 调整边距 */
+.bottom-tip {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fafafa;
+  padding: 15rpx 30rpx;  /* 统一30rpx */
+  font-size: 20rpx;
+  color: #999;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+/* 操作菜单 - 保持不变 */
+.action-sheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.action-sheet.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.action-sheet-content {
+  background-color: white;
+  width: 100%;
+  border-radius: 20rpx 20rpx 0 0;
+  padding: 20rpx 0;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+}
+
+.action-sheet.show .action-sheet-content {
+  transform: translateY(0);
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx 35rpx;
+  font-size: 30rpx;
+  color: #333;
+  gap: 20rpx;
+  transition: background-color 0.2s;
+}
+
+.action-item:active {
+  background-color: #f5f5f5;
+}
+
+.action-item.delete {
+  color: #ff4d4f;
+}
+
+.action-item.cancel {
+  justify-content: center;
+  color: #666;
+  border-top: 1rpx solid #f0f0f0;
+  margin-top: 10rpx;
+  padding-top: 25rpx;
+}

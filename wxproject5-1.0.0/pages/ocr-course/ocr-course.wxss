@@ -1,0 +1,492 @@
+/* pages/ocr-course/ocr-course.wxss */
+
+.ocr-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 120rpx;
+}
+
+/* 头部 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background-color: white;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.nav-back {
+  color: #1890ff;
+  font-size: 28rpx;
+  padding: 10rpx 20rpx;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 内容区域 */
+.content {
+  height: calc(100vh - 180rpx);
+  padding: 20rpx 30rpx;
+}
+
+/* 引导区域 */
+.guide-section {
+  text-align: center;
+  padding: 40rpx 30rpx;
+}
+
+.guide-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #1890ff;
+  margin-bottom: 10rpx;
+}
+
+.guide-subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+.guide-tips {
+  background-color: white;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.tip-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.tip-item:last-child {
+  margin-bottom: 0;
+}
+
+.tip-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  min-width: 50rpx;
+  text-align: center;
+}
+
+.tip-text {
+  font-size: 28rpx;
+  color: #333;
+  text-align: left;
+  flex: 1;
+}
+
+.btn-scan {
+  background: linear-gradient(135deg, #1890ff, #52c41a);
+  color: white;
+  border-radius: 12rpx;
+  padding: 30rpx 0;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 30rpx;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15rpx;
+}
+
+.scan-icon {
+  font-size: 40rpx;
+}
+
+/* 状态区域 */
+.status-section {
+  padding: 20rpx 0;
+}
+
+.status-card {
+  background-color: white;
+  border-radius: 12rpx;
+  padding: 40rpx 30rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.status-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.status-title {
+  display: block;
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 30rpx;
+}
+
+.preview-image {
+  width: 100%;
+  border-radius: 8rpx;
+  margin: 20rpx 0;
+  max-height: 400rpx;
+  object-fit: contain;
+}
+
+.progress {
+  width: 100%;
+  height: 8rpx;
+  background-color: #f0f0f0;
+  border-radius: 4rpx;
+  overflow: hidden;
+  margin-top: 20rpx;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #1890ff;
+  animation: loading 2s infinite;
+}
+
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+/* 预览区域 */
+.preview-section {
+  padding-bottom: 30rpx;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.preview-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.preview-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.action-btn {
+  color: #1890ff;
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  background-color: #f0f0f0;
+  border-radius: 6rpx;
+}
+
+.stats-info {
+  display: flex;
+  background-color: white;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  justify-content: space-around;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 5rpx;
+}
+
+.stat-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.stat-value.success {
+  color: #52c41a;
+}
+
+.stat-value.duplicate {
+  color: #faad14;
+}
+
+.courses-list {
+  background-color: white;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+  margin-bottom: 20rpx;
+}
+
+.course-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  transition: all 0.2s;
+}
+
+.course-item:last-child {
+  border-bottom: none;
+}
+
+.course-item.selected {
+  background-color: #f0f8ff;
+}
+
+.course-item.imported {
+  opacity: 0.7;
+}
+
+.course-item.duplicate {
+  background-color: #fff7e6;
+}
+
+.select-checkbox {
+  margin-right: 20rpx;
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid #d9d9d9;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: white;
+  background-color: white;
+}
+
+.checkbox.checked {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.course-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.color-tag {
+  width: 12rpx;
+  height: 40rpx;
+  border-radius: 6rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.course-main {
+  flex: 1;
+}
+
+.course-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+  word-break: break-word;
+}
+
+.course-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rpx;
+}
+
+.detail-item {
+  font-size: 24rpx;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 5rpx;
+}
+
+.detail-icon {
+  font-size: 20rpx;
+}
+
+.status-tag {
+  padding: 6rpx 12rpx;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  color: white;
+  font-weight: 500;
+  background-color: #52c41a;
+  margin-left: 10rpx;
+}
+
+.course-item.duplicate .status-tag {
+  background-color: #faad14;
+}
+
+.import-tip, .success-tip {
+  background-color: #f6ffed;
+  border: 1rpx solid #b7eb8f;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  display: flex;
+  align-items: flex-start;
+  gap: 10rpx;
+  margin-top: 20rpx;
+}
+
+.success-tip {
+  background-color: #e6f7ff;
+  border-color: #91d5ff;
+}
+
+.tip-icon {
+  font-size: 24rpx;
+  flex-shrink: 0;
+  margin-top: 2rpx;
+}
+
+.tip-text {
+  font-size: 24rpx;
+  color: #333;
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* 错误区域 */
+.error-section {
+  padding: 40rpx 0;
+}
+
+.error-card {
+  background-color: white;
+  border-radius: 12rpx;
+  padding: 40rpx 30rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.error-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.7;
+}
+
+.error-title {
+  display: block;
+  font-size: 34rpx;
+  color: #ff4d4f;
+  font-weight: 600;
+  margin-bottom: 10rpx;
+}
+
+.error-desc {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+  line-height: 1.4;
+}
+
+.btn-retry {
+  background-color: #1890ff;
+  color: white;
+  border-radius: 8rpx;
+  padding: 20rpx 40rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+  margin-bottom: 30rpx;
+}
+
+.error-tips {
+  text-align: left;
+  background-color: #fafafa;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-top: 20rpx;
+}
+
+.tip-title {
+  display: block;
+  font-size: 24rpx;
+  color: #1890ff;
+  font-weight: 500;
+  margin-bottom: 10rpx;
+}
+
+.error-tips .tip-item {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+  padding-left: 20rpx;
+  position: relative;
+}
+
+.error-tips .tip-item:before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #1890ff;
+}
+
+/* 底部操作按钮 */
+.action-buttons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  padding: 20rpx 30rpx;
+  border-top: 1rpx solid #f0f0f0;
+  display: flex;
+  gap: 20rpx;
+  z-index: 100;
+}
+
+.btn-cancel, .btn-import {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-cancel {
+  background-color: #f5f5f5;
+  color: #666;
+  border: 2rpx solid #e8e8e8;
+}
+
+.btn-import {
+  background-color: #1890ff;
+  color: white;
+}
+
+.btn-import[disabled] {
+  background-color: #d9d9d9;
+  color: rgba(0, 0, 0, 0.25);
+}

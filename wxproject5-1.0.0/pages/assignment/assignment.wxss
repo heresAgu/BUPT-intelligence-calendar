@@ -1,0 +1,321 @@
+/* pages/assignment/assignment.wxss - 最终优化版 */
+
+/* 页面容器 */
+.assignment-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* 搜索栏 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 15rpx 20rpx;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.search-input {
+  flex: 1;
+  background-color: #f8f8f8;
+  border-radius: 40rpx;
+  padding: 12rpx 20rpx;
+  display: flex;
+  align-items: center;
+  margin-right: 15rpx;
+}
+
+.search-input .iconfont {
+  margin-right: 10rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.search-input input {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+
+.filter-btn {
+  padding: 10rpx 16rpx;
+  background-color: #1890ff;
+  color: white;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  white-space: nowrap;
+}
+
+/* 筛选标签 */
+.filter-tags {
+  white-space: nowrap;
+  padding: 15rpx 20rpx;
+  background-color: white;
+  border-bottom: 1rpx solid #f0f0f0;
+  display: flex;
+  gap: 10rpx;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-tag {
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #e8e8e8;
+  color: #666;
+  font-size: 24rpx;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.filter-tag.active {
+  background-color: #1890ff;
+  color: white;
+  border-color: #1890ff;
+}
+
+/* 作业列表容器 */
+.assignment-list {
+  height: calc(100vh - 240rpx);
+  padding-bottom: 120rpx;
+}
+
+/* 时间分组 - 紧凑版 */
+.time-section {
+  margin: 8rpx 15rpx 10rpx;
+  background-color: white;
+  border-radius: 10rpx;
+  overflow: hidden;
+  box-shadow: 0 1rpx 6rpx rgba(0,0,0,0.04);
+}
+
+.section-header {
+  padding: 12rpx 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fafafa;
+  border-radius: 10rpx 10rpx 0 0;
+}
+
+.section-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1890ff;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.section-time {
+  font-size: 20rpx;
+  color: #666;
+  background-color: #f0f0f0;
+  padding: 2rpx 8rpx;
+  border-radius: 6rpx;
+}
+
+/* 作业卡片 - 紧凑版 */
+.assignment-card {
+  padding: 15rpx 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  position: relative;
+}
+
+.assignment-card:last-child {
+  border-bottom: none;
+}
+
+.assignment-card.high-priority {
+  border-left: 4rpx solid #ff4d4f;
+}
+
+.assignment-card.medium-priority {
+  border-left: 4rpx solid #faad14;
+}
+
+.assignment-card.low-priority {
+  border-left: 4rpx solid #52c41a;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12rpx;
+}
+
+.assignment-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+  margin-right: 12rpx;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-height: 72rpx;
+}
+
+.priority-badge {
+  padding: 3rpx 10rpx;
+  border-radius: 4rpx;
+  font-size: 18rpx;
+  color: white;
+  min-width: 32rpx;
+  text-align: center;
+  font-weight: 500;
+}
+
+.priority-0 { background-color: #52c41a; }
+.priority-1 { background-color: #faad14; }
+.priority-2 { background-color: #ff4d4f; }
+
+.card-body {
+  margin-bottom: 12rpx;
+}
+
+.course-info, .due-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6rpx;
+  font-size: 22rpx;
+  color: #666;
+  line-height: 1.2;
+}
+
+.course-info .iconfont, .due-info .iconfont {
+  margin-right: 6rpx;
+  font-size: 22rpx;
+  opacity: 0.7;
+}
+
+.due-text {
+  margin-right: 12rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.time-left {
+  font-weight: 500;
+  padding: 2rpx 8rpx;
+  border-radius: 3rpx;
+  font-size: 20rpx;
+}
+
+.time-left.urgent {
+  background-color: #fff2f0;
+  color: #ff4d4f;
+}
+
+.time-left.warning {
+  background-color: #fff7e6;
+  color: #faad14;
+}
+
+.time-left.normal {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10rpx;
+  border-top: 1rpx dashed #f0f0f0;
+}
+
+.status-tag {
+  padding: 3rpx 10rpx;
+  border-radius: 3rpx;
+  font-size: 20rpx;
+  font-weight: 500;
+}
+
+.status-0 { background-color: #f5f5f5; color: #666; }
+.status-1 { background-color: #e6f7ff; color: #1890ff; }
+.status-2 { background-color: #f6ffed; color: #52c41a; }
+
+.action-buttons {
+  display: flex;
+  gap: 8rpx;
+}
+
+.btn-quick-action {
+  padding: 4rpx 12rpx !important;
+  line-height: 1.2 !important;
+  min-width: 100rpx;
+  font-size: 20rpx !important;
+  height: auto !important;
+  border-radius: 4rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  padding: 50rpx 20rpx;
+  text-align: center;
+}
+
+.empty-image {
+  font-size: 80rpx;
+  margin-bottom: 15rpx;
+  opacity: 0.5;
+  display: block;
+}
+
+.empty-title {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+  font-weight: 500;
+  display: block;
+}
+
+.empty-desc {
+  font-size: 22rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.btn-primary {
+  background: #1890ff;
+  color: white;
+  border-radius: 8rpx;
+  padding: 15rpx 30rpx;
+  font-size: 26rpx;
+  margin-top: 20rpx;
+}
+
+/* 浮动按钮 */
+.fab-container {
+  position: fixed;
+  right: 20rpx;
+  bottom: 100rpx;
+  z-index: 1000;
+}
+
+.fab-button {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: #1890ff;
+  color: white;
+  box-shadow: 0 4rpx 12rpx rgba(24, 144, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.fab-icon {
+  font-size: 36rpx;
+  font-weight: 300;
+}

@@ -1,0 +1,132 @@
+<!-- pages/assignment-detail/assignment-detail.wxml -->
+<view class="detail-page">
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view class="error-state" wx:elif="{{isError}}">
+    <view class="error-icon">❌</view>
+    <text class="error-title">加载失败</text>
+    <text class="error-desc">{{errorMsg || '作业不存在或已被删除'}}</text>
+    <button class="btn-primary" bindtap="goBack">返回列表</button>
+  </view>
+
+  <!-- 正常内容 -->
+  <view class="content" wx:else>
+    <!-- 头部卡片 -->
+    <view class="header-card">
+      <!-- 优先级标签 -->
+      <view class="priority-label priority-{{assignment.priority}}">
+        {{['低','中','高'][assignment.priority]}}优先级
+      </view>
+      
+      <!-- 标题 -->
+      <view class="title">{{assignment.title}}</view>
+      
+      <!-- 状态标签 -->
+      <view class="status-badge status-{{assignment.status}}">
+        {{['未开始','进行中','已完成'][assignment.status]}}
+      </view>
+    </view>
+
+    <!-- 详细信息卡片 -->
+    <view class="info-card">
+      <view class="info-section">
+        <text class="section-title">📚 课程信息</text>
+        <view class="info-row">
+          <text class="info-label">课程名称：</text>
+          <text class="info-value">{{assignment.courseName || '未分类'}}</text>
+        </view>
+        <view class="info-row" wx:if="{{assignment.teacher}}">
+          <text class="info-label">任课老师：</text>
+          <text class="info-value">{{assignment.teacher}}</text>
+        </view>
+      </view>
+
+      <view class="info-section">
+        <text class="section-title">⏰ 时间信息</text>
+        <view class="info-row">
+          <text class="info-label">截止时间：</text>
+          <text class="info-value">{{assignment.formattedDueTime || '无截止时间'}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">剩余时间：</text>
+          <text class="info-value time-left {{assignment.urgentClass}}">
+            {{assignment.timeLeftText}}
+          </text>
+        </view>
+        <view class="info-row" wx:if="{{assignment.createdAt}}">
+          <text class="info-label">创建时间：</text>
+          <text class="info-value">{{assignment.createdAtText}}</text>
+        </view>
+        <view class="info-row" wx:if="{{assignment.completedAt}}">
+          <text class="info-label">完成时间：</text>
+          <text class="info-value">{{assignment.completedAtText}}</text>
+        </view>
+      </view>
+
+      <view class="info-section" wx:if="{{assignment.description}}">
+        <text class="section-title">📝 作业描述</text>
+        <view class="description">{{assignment.description}}</view>
+      </view>
+
+      <!-- 附件区域（预留） -->
+      <view class="info-section" wx:if="{{assignment.attachments && assignment.attachments.length > 0}}">
+        <text class="section-title">📎 附件</text>
+        <view class="attachments">
+          <view class="attachment-item" wx:for="{{assignment.attachments}}" wx:key="index">
+            <text class="attachment-name">{{item.name}}</text>
+            <button class="btn-download" size="mini">下载</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮区域 -->
+    <view class="action-card">
+      <view class="action-buttons">
+        <!-- 标记完成/取消完成 -->
+        <button 
+          class="btn-action btn-complete" 
+          wx:if="{{assignment.status !== 2}}"
+          bindtap="markAsComplete"
+        >
+          <text class="icon">✅</text>
+          标记完成
+        </button>
+        <button 
+          class="btn-action btn-undo" 
+          wx:else
+          bindtap="markAsIncomplete"
+        >
+          <text class="icon">↩️</text>
+          取消完成
+        </button>
+
+        <!-- 编辑按钮 -->
+        <button 
+          class="btn-action btn-edit"
+          bindtap="editAssignment"
+        >
+          <text class="icon">✏️</text>
+          编辑作业
+        </button>
+
+        <!-- 删除按钮 -->
+        <button 
+          class="btn-action btn-delete"
+          bindtap="deleteAssignment"
+        >
+          <text class="icon">🗑️</text>
+          删除作业
+        </button>
+      </view>
+    </view>
+
+    <!-- 底部安全区域 -->
+    <view class="safe-area"></view>
+  </view>
+</view>

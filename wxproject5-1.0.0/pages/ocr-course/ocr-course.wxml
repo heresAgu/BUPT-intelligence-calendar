@@ -1,0 +1,182 @@
+<!-- pages/ocr-course/ocr-course.wxml -->
+<view class="ocr-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="nav-back" bindtap="goBack">返回</view>
+    <text class="title">拍照识别课程表</text>
+  </view>
+
+  <!-- 内容区域 -->
+  <scroll-view class="content" scroll-y>
+    
+    <!-- 引导区域 -->
+    <view class="guide-section" wx:if="{{status === 'idle' || status === 'selecting'}}">
+      <view class="guide-title">拍照识别课程表</view>
+      <view class="guide-subtitle">快速导入课程，告别手动输入</view>
+      
+      <view class="guide-tips">
+        <view class="tip-item">
+          
+          <text class="tip-text">拍摄清晰的课程表照片</text>
+        </view>
+        <view class="tip-item">
+          
+          <text class="tip-text">确保光线充足，文字清晰</text>
+        </view>
+        <view class="tip-item">
+          
+          <text class="tip-text">尽量正对拍摄，避免倾斜</text>
+        </view>
+      </view>
+      
+      <button class="btn-scan" bindtap="chooseImage">
+        
+        <text>拍摄/选择课程表照片</text>
+      </button>
+    </view>
+
+    <!-- 处理状态 -->
+    <view class="status-section" wx:if="{{status !== 'idle' && status !== 'preview' && status !== 'success'}}">
+      <view class="status-card">
+        <view class="status-icon">{{status === 'uploading' ? '📤' : status === 'recognizing' ? '🔍' : '⏳'}}</view>
+        <text class="status-title">{{getStatusText(status)}}</text>
+        
+        <!-- 图片预览 -->
+        <image 
+          wx:if="{{imagePath && status !== 'selecting'}}" 
+          src="{{imagePath}}" 
+          mode="widthFix" 
+          class="preview-image"
+        ></image>
+        
+        <!-- 进度条 -->
+        <view class="progress" wx:if="{{status === 'uploading' || status === 'recognizing'}}">
+          <view class="progress-bar"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 预览结果 -->
+    <view class="preview-section" wx:if="{{status === 'preview' || status === 'success'}}">
+      <view class="preview-header">
+        
+        <view class="preview-actions">
+          <text class="action-btn" bindtap="toggleSelectAll">
+            {{isAllSelected ? '全不选' : '全选'}}
+          </text>
+          <text class="action-btn" bindtap="retry">重新识别</text>
+        </view>
+      </view>
+      
+      <!-- 统计信息 -->
+      <view class="stats-info">
+        <view class="stat-item">
+          <text class="stat-label">识别到</text>
+          <text class="stat-value">{{stats.total}}个</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-label">选中</text>
+          <text class="stat-value">{{stats.selected}}个</text>
+        </view>
+        <view class="stat-item" wx:if="{{status === 'success'}}">
+          <text class="stat-label">导入</text>
+          <text class="stat-value success">{{stats.imported}}个</text>
+        </view>
+        <view class="stat-item" wx:if="{{status === 'success'}}">
+          <text class="stat-label">已存在</text>
+          <text class="stat-value duplicate">{{stats.duplicate}}个</text>
+        </view>
+      </view>
+      
+      <!-- 课程列表 -->
+      <view class="courses-list">
+        <view 
+          class="course-item {{selectedRows[index] ? 'selected' : ''}} {{item.isImported === 'success' ? 'imported' : ''}} {{item.isImported === 'duplicate' ? 'duplicate' : ''}}"
+          wx:for="{{parsedCourses}}"
+          wx:key="id"
+          data-index="{{index}}"
+          bindtap="toggleSelect"
+        >
+          <!-- 选择框 -->
+          <view class="select-checkbox">
+            <view class="checkbox {{selectedRows[index] ? 'checked' : ''}}">
+              {{selectedRows[index] ? '✓' : ''}}
+            </view>
+          </view>
+          
+          <!-- 课程信息 -->
+          <view class="course-info">
+            <!-- 颜色标签 -->
+            <view class="color-tag" style="background-color: {{item.color}}"></view>
+            
+            <view class="course-main">
+              <view class="course-name">{{item.name}}</view>
+              <view class="course-details">
+                <text class="detail-item" wx:if="{{item.teacher}}">
+                  
+                  {{item.teacher}}
+                </text>
+                <text class="detail-item" wx:if="{{item.time}}">
+                  
+                  {{item.time}}
+                </text>
+                <text class="detail-item" wx:if="{{item.classroom}}">
+                  
+                  {{item.classroom}}
+                </text>
+              </view>
+            </view>
+          </view>
+          
+          <!-- 状态标签 -->
+          <view class="status-tag" wx:if="{{item.isImported}}">
+            {{item.isImported === 'success' ? '已导入' : '已存在'}}
+          </view>
+        </view>
+      </view>
+      
+      <!-- 导入提示 -->
+      <view class="import-tip" wx:if="{{status === 'preview'}}">
+        
+        <text class="tip-text">已自动跳过已存在的课程，可以取消选择不需要的课程</text>
+      </view>
+      
+      <!-- 成功提示 -->
+      <view class="success-tip" wx:if="{{status === 'success'}}">
+        
+        <text class="tip-text">课程导入成功！{{stats.imported}}个新课程已添加</text>
+      </view>
+    </view>
+
+    <!-- 错误状态 -->
+    <view class="error-section" wx:if="{{status === 'error'}}">
+      <view class="error-card">
+        <view class="error-icon">❌</view>
+        <text class="error-title">识别失败</text>
+        <text class="error-desc">{{errorMessage || '请重试'}}</text>
+        
+        <button class="btn-retry" bindtap="retry">重新尝试</button>
+        
+        <view class="error-tips">
+          <text class="tip-title">识别小技巧：</text>
+          <text class="tip-item">1. 确保照片光线充足</text>
+          <text class="tip-item">2. 尽量正对课程表拍摄</text>
+          <text class="tip-item">3. 避免照片模糊或反光</text>
+        </view>
+      </view>
+    </view>
+    
+  </scroll-view>
+
+  <!-- 底部操作按钮 -->
+  <view class="action-buttons" wx:if="{{status === 'preview'}}">
+    <button class="btn-cancel" bindtap="retry">取消</button>
+    <button 
+      class="btn-import" 
+      bindtap="confirmImport"
+      disabled="{{stats.selected === 0}}"
+    >
+      导入选中的课程
+    </button>
+  </view>
+</view>

@@ -1,0 +1,177 @@
+<!-- pages/add-assignment/add-assignment.wxml -->
+<view class="add-page">
+  <!-- 头部导航 -->
+  <view class="header">
+    <view class="nav-back" bindtap="goBack">返回</view>
+    <text class="title">{{mode === 'add' ? '添加作业' : '编辑作业'}}</text>
+    <view class="nav-save" bindtap="onSave">保存</view>
+  </view>
+
+  <!-- 表单区域 -->
+  <scroll-view class="form-container" scroll-y>
+    <!-- 基础信息 -->
+    <view class="form-section">
+      <text class="section-title">📝 基础信息</text>
+      
+      <!-- 作业标题 -->
+      <view class="form-item">
+        <text class="item-label required">作业标题</text>
+        <input
+          class="input {{errors.title ? 'error' : ''}}"
+          placeholder="请输入作业标题"
+          value="{{formData.title}}"
+          data-field="title"
+          bindinput="onInputChange"
+          maxlength="50"
+        />
+        <text class="error-msg" wx:if="{{errors.title}}">{{errors.title}}</text>
+        <text class="hint" wx:if="!errors.title">最多50个字</text>
+      </view>
+      
+      <!-- 课程选择 -->
+      <view class="form-item">
+        <text class="item-label required">所属课程</text>
+        <picker
+          class="picker {{errors.courseId ? 'error' : ''}}"
+          range="{{courses}}"
+          range-key="name"
+          value="{{courseIndex}}"
+          bindchange="onCourseChange"
+        >
+          <view class="picker-view">
+            {{selectedCourseName}}
+          </view>
+        </picker>
+        <text class="error-msg" wx:if="{{errors.courseId}}">{{errors.courseId}}</text>
+      </view>
+      
+      <!-- 截止时间 -->
+      <view class="form-item">
+        <text class="item-label">截止时间</text>
+        <view class="time-picker">
+          <picker
+            mode="date"
+            value="{{date}}"
+            start="{{today}}"
+            end="{{maxDate}}"
+            bindchange="onDateChange"
+          >
+            <view class="time-item">{{date || '选择日期'}}</view>
+          </picker>
+          <text class="time-separator">-</text>
+          <picker
+            mode="time"
+            value="{{time}}"
+            bindchange="onTimeChange"
+          >
+            <view class="time-item">{{time || '选择时间'}}</view>
+          </picker>
+        </view>
+        <text class="hint" wx:if="{{formData.dueDate}}">
+          截止：{{formatDate(formData.dueDate, 'YYYY年MM月DD日 HH:mm')}}
+        </text>
+      </view>
+    </view>
+
+    <!-- 详细设置 -->
+    <view class="form-section">
+      <text class="section-title">⚙️ 详细设置</text>
+      
+      <!-- 优先级 -->
+      <view class="form-item">
+        <text class="item-label">优先级</text>
+        <view class="priority-options">
+          <view
+            class="priority-option {{formData.priority === 0 ? 'active' : ''}}"
+            data-priority="0"
+            bindtap="onPriorityChange"
+          >
+            <view class="priority-dot low"></view>
+            <text>低</text>
+          </view>
+          <view
+            class="priority-option {{formData.priority === 1 ? 'active' : ''}}"
+            data-priority="1"
+            bindtap="onPriorityChange"
+          >
+            <view class="priority-dot medium"></view>
+            <text>中</text>
+          </view>
+          <view
+            class="priority-option {{formData.priority === 2 ? 'active' : ''}}"
+            data-priority="2"
+            bindtap="onPriorityChange"
+          >
+            <view class="priority-dot high"></view>
+            <text>高</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 状态 -->
+      <view class="form-item">
+        <text class="item-label">当前状态</text>
+        <view class="status-options">
+          <view
+            class="status-option {{formData.status === 0 ? 'active' : ''}}"
+            data-status="0"
+            bindtap="onStatusChange"
+          >
+            <text>未开始</text>
+          </view>
+          <view
+            class="status-option {{formData.status === 1 ? 'active' : ''}}"
+            data-status="1"
+            bindtap="onStatusChange"
+          >
+            <text>进行中</text>
+          </view>
+          <view
+            class="status-option {{formData.status === 2 ? 'active' : ''}}"
+            data-status="2"
+            bindtap="onStatusChange"
+          >
+            <text>已完成</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 作业描述 -->
+    <view class="form-section">
+      <text class="section-title">📄 作业描述</text>
+      <view class="form-item">
+        <textarea
+          class="textarea"
+          placeholder="请输入作业详细描述、要求等..."
+          value="{{formData.description}}"
+          data-field="description"
+          bindinput="onInputChange"
+          maxlength="500"
+          auto-height
+        />
+        <view class="word-count">{{(formData.description && formData.description.length) || 0}}/500</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <!-- 删除按钮（仅编辑模式） -->
+    <button 
+      class="btn-delete" 
+      wx:if="{{mode === 'edit'}}"
+      bindtap="onDelete"
+    >
+      删除作业
+    </button>
+    
+    <!-- 取消按钮 -->
+    <button class="btn-cancel" bindtap="onCancel">取消</button>
+    
+    <!-- 保存按钮 -->
+    <button class="btn-save" bindtap="onSave">
+      {{mode === 'add' ? '添加作业' : '保存修改'}}
+    </button>
+  </view>
+</view>

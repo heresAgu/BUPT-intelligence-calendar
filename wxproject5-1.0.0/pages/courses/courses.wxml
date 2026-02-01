@@ -1,0 +1,143 @@
+<!-- pages/courses/courses.wxml -->
+<view class="courses-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-title">课程管理</view>
+    <view class="header-actions">
+      <button class="btn-add" bindtap="goToAddCourse">+ 添加</button>
+    </view>
+  </view>
+
+  <!-- 导入功能区 -->
+  <view class="import-section">
+    <view class="section-title"> 快速导入</view>
+    <view class="import-buttons">
+      <button class="btn-import-ocr" bindtap="goToOCRImport">
+        <view class="import-icon">📸</view>
+        <text>拍照识别</text>
+      </button>
+      <button class="btn-import-text" bindtap="goToTextImport">
+        <view class="import-icon">📋</view>
+        <text>文本导入</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-section">
+    <view class="search-box">
+      <input
+        class="search-input"
+        placeholder="搜索课程..."
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+      />
+      
+    </view>
+  </view>
+
+  <!-- 课程列表 -->
+  <scroll-view class="courses-list" scroll-y>
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{showEmptyState}}">
+      <view class="empty-icon">📚</view>
+      <view class="empty-title">暂无课程</view>
+      <view class="empty-desc">添加你的第一门课程，开始管理吧！</view>
+      <view class="empty-actions">
+        <button class="btn-empty-add" bindtap="goToAddCourse">添加课程</button>
+        <button class="btn-empty-import" bindtap="goToOCRImport">拍照识别</button>
+      </view>
+    </view>
+
+    <!-- 课程卡片 -->
+    <view
+      class="course-card"
+      wx:for="{{courses}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="viewCourseDetail"
+      bindlongpress="onLongPressCourse"
+    >
+      <!-- 课程颜色标签 -->
+      <view class="course-color" style="background-color: {{item.color}}"></view>
+      
+      <view class="course-content">
+      <!-- 课程基本信息 -->
+      <view class="course-header">
+        <view class="course-name">{{item.name}}</view>
+        <view class="course-actions">
+          <button
+            class="btn-edit"
+            data-id="{{item.id}}"
+            catchtap="goToEditCourse"  
+          >
+            编辑
+          </button>
+        </view>
+      </view>
+        
+        <!-- 课程详情 -->
+        <view class="course-details">
+          <view class="detail-item" wx:if="{{item.teacher}}">
+            
+            <text>{{item.teacher}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.time}}">
+            
+            <text>{{item.time}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.classroom}}">
+            
+            <text>{{item.classroom}}</text>
+          </view>
+        </view>
+        
+        <!-- 作业统计 -->
+        <view class="course-stats">
+          <view class="stat-item">
+            <view class="stat-label">作业总数</view>
+            <view class="stat-value">{{item.assignmentCount || 0}}</view>
+          </view>
+          <view class="stat-item">
+            <view class="stat-label">已完成</view>
+            <view class="stat-value completed">{{item.completedCount || 0}}</view>
+          </view>
+          <view class="stat-item">
+            <view class="stat-label">待完成</view>
+            <view class="stat-value pending">{{item.pendingCount || 0}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部导入提示 -->
+  <view class="bottom-tip" wx:if="{{courses.length > 0}}">
+    <text>共 {{courses.length}} 门课程</text>
+    <text>·</text>
+    <text>点击课程查看详情</text>
+    <text>·</text>
+    <text>长按课程可删除</text>
+  </view>
+
+  <!-- 操作菜单 -->
+  <view
+    class="action-sheet {{showActionSheet ? 'show' : ''}}"
+    bindtap="closeActionSheet"
+  >
+    <view class="action-sheet-content" catchtap>
+      <view class="action-item" bindtap="onActionSheetSelect" data-index="0">
+        <view class="action-icon">✏️</view>
+        <text>编辑课程</text>
+      </view>
+      <view class="action-item delete" bindtap="onActionSheetSelect" data-index="1">
+        <view class="action-icon">🗑️</view>
+        <text>删除课程</text>
+      </view>
+      <view class="action-item cancel" bindtap="closeActionSheet">
+        取消
+      </view>
+    </view>
+  </view>
+</view>

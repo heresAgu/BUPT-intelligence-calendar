@@ -1,0 +1,307 @@
+/* pages/add-assignment/add-assignment.wxss */
+
+/* 页面容器 */
+.add-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 120rpx;
+}
+
+/* 头部导航 */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 40rpx;
+  background-color: white;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.nav-back, .nav-save {
+  color: #1890ff;
+  font-size: 28rpx;
+  padding: 10rpx 20rpx;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 表单容器 */
+.form-container {
+  height: calc(100vh - 300rpx);
+  padding: 20rpx 30rpx;
+}
+
+/* 表单区块 */
+.form-section {
+  background-color: white;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.section-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1890ff;
+  margin-bottom: 30rpx;
+  padding-bottom: 15rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+/* 表单项 */
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.item-label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 15rpx;
+}
+
+.item-label.required::after {
+  content: '*';
+  color: #ff4d4f;
+  margin-left: 5rpx;
+}
+
+/* 输入框 */
+.input, .textarea, .picker-view {
+  width: 100%;
+  min-height: 80rpx;
+  padding: 20rpx 24rpx;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: #333;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.input.error, .picker.error .picker-view {
+  border-color: #ff4d4f;
+  background-color: #fff2f0;
+}
+
+.input:focus, .textarea:focus {
+  border-color: #1890ff;
+  outline: none;
+}
+
+/* 错误消息 */
+.error-msg {
+  display: block;
+  color: #ff4d4f;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+/* 提示文字 */
+.hint {
+  display: block;
+  color: #999;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+/* 选择器 */
+.picker-view {
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+.picker-view::after {
+  content: '▼';
+  margin-left: auto;
+  color: #999;
+  font-size: 20rpx;
+}
+
+/* 时间选择器 */
+.time-picker {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.time-item {
+  flex: 1;
+  min-height: 80rpx;
+  padding: 20rpx 24rpx;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 8rpx;
+  color: #333;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.time-separator {
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 优先级选项 */
+.priority-options {
+  display: flex;
+  gap: 20rpx;
+}
+
+.priority-option {
+  flex: 1;
+  padding: 20rpx 0;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+  transition: all 0.2s;
+}
+
+.priority-option.active {
+  border-color: #1890ff;
+  background-color: #e6f7ff;
+  color: #1890ff;
+  transform: scale(1.02);
+}
+
+.priority-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+}
+
+.priority-dot.low {
+  background-color: #52c41a;
+}
+
+.priority-dot.medium {
+  background-color: #faad14;
+}
+
+.priority-dot.high {
+  background-color: #ff4d4f;
+}
+
+/* 状态选项 */
+.status-options {
+  display: flex;
+  gap: 20rpx;
+}
+
+.status-option {
+  flex: 1;
+  padding: 20rpx 0;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.status-option.active {
+  border-color: #1890ff;
+  background-color: #e6f7ff;
+  color: #1890ff;
+  font-weight: 500;
+  transform: scale(1.02);
+}
+
+/* 文本域 */
+.textarea {
+  min-height: 200rpx;
+  padding: 20rpx 24rpx;
+  line-height: 1.5;
+  font-size: 28rpx;
+  color: #333;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 8rpx;
+  resize: vertical;
+}
+
+.textarea:focus {
+  border-color: #1890ff;
+  outline: none;
+}
+
+/* 字数统计 */
+.word-count {
+  text-align: right;
+  color: #999;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  padding: 20rpx 30rpx;
+  border-top: 1rpx solid #f0f0f0;
+  display: flex;
+  gap: 20rpx;
+  z-index: 100;
+}
+
+.btn-delete, .btn-cancel, .btn-save {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete {
+  background-color: #ff4d4f;
+  color: white;
+}
+
+.btn-delete:active {
+  background-color: #d9363e;
+}
+
+.btn-cancel {
+  background-color: #f5f5f5;
+  color: #666;
+  border: 2rpx solid #e8e8e8;
+}
+
+.btn-cancel:active {
+  background-color: #e8e8e8;
+}
+
+.btn-save {
+  background-color: #1890ff;
+  color: white;
+}
+
+.btn-save:active {
+  background-color: #096dd9;
+}

@@ -1,0 +1,72 @@
+{
+  "cloud": true,
+  "cloudfunctionRoot": "cloudfunctions/",
+  "pages": [
+    "pages/index/index",
+    "pages/assignment/assignment",
+    "pages/assignment-detail/assignment-detail",
+    "pages/add-assignment/add-assignment",
+    "pages/add-course/add-course",
+    "pages/courses/courses",
+    "pages/course-detail/course-detail",
+    "pages/profile/profile",
+    "pages/ocr-course/ocr-course",
+    "pages/import-course/import-course",
+    "pages/links/links"
+    
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1890ff",
+    "navigationBarTitleText": "北邮AI日历",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#1890ff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "日历",
+        "iconPath": "assets/icons/calendar.png",
+        "selectedIconPath": "assets/icons/calendar-active.png"
+      },
+      {
+        "pagePath": "pages/assignment/assignment",
+        "text": "作业",
+        "iconPath": "assets/icons/assignment.png",
+        "selectedIconPath": "assets/icons/assignment-active.png"
+      },
+      {
+        "pagePath": "pages/links/links",
+        "text": "链接",
+        "iconPath": "assets/icons/link.png",
+        "selectedIconPath": "assets/icons/link-active.png"
+      },
+      {
+        "pagePath": "pages/courses/courses",
+        "text": "课程",
+        "iconPath": "assets/icons/course.png",
+        "selectedIconPath": "assets/icons/course-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-active.png"
+      }
+    ]
+  },
+  "requiredBackgroundModes": [
+    "audio"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于获取校区信息"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

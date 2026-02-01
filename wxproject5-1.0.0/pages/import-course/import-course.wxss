@@ -1,0 +1,302 @@
+/* pages/import-course/import-course.wxss */
+.import-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 40rpx;
+}
+
+/* 头部 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 30rpx 20rpx;
+  background-color: white;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.nav-back {
+  color: #1890ff;
+  font-size: 28rpx;
+  padding: 10rpx 20rpx 10rpx 0;
+}
+
+.title {
+  flex: 1;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-right: 60rpx;
+}
+
+/* 格式说明 */
+.format-guide {
+  background-color: #e6f7ff;
+  border: 1rpx solid #91d5ff;
+  border-radius: 12rpx;
+  margin: 20rpx 30rpx;
+  padding: 20rpx 25rpx;
+}
+
+.guide-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1890ff;
+  margin-bottom: 10rpx;
+}
+
+.guide-content {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 10rpx;
+}
+
+.example {
+  display: block;
+  background-color: white;
+  padding: 10rpx 15rpx;
+  border-radius: 6rpx;
+  margin: 10rpx 0;
+  color: #1890ff;
+  font-family: monospace;
+}
+
+.guide-tip {
+  font-size: 24rpx;
+  color: #999;
+  font-style: italic;
+}
+
+/* 输入区域 */
+.input-section {
+  background-color: white;
+  margin: 0 30rpx 20rpx;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.text-input {
+  width: 100%;
+  min-height: 200rpx;
+  font-size: 28rpx;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fafafa;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  border: 1rpx solid #e8e8e8;
+}
+
+.input-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.btn-clear, .btn-parse {
+  flex: 1;
+  height: 70rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-clear {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.btn-parse {
+  background-color: #1890ff;
+  color: white;
+}
+
+.btn-parse[disabled] {
+  background-color: #bae7ff;
+  color: #8c8c8c;
+}
+
+/* 预览区域 */
+.preview-section {
+  max-height: 60vh;
+  margin: 0 30rpx;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+  padding: 0 10rpx;
+}
+
+.select-all {
+  color: #1890ff;
+  font-size: 26rpx;
+  font-weight: 500;
+  padding: 8rpx 15rpx;
+  border-radius: 6rpx;
+  background-color: #e6f7ff;
+}
+
+/* 课程列表 */
+.course-list {
+  background-color: white;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+  margin-bottom: 20rpx;
+}
+
+.course-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 25rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.course-item:last-child {
+  border-bottom: none;
+}
+
+.course-item:active {
+  background-color: #fafafa;
+}
+
+.course-select {
+  margin-right: 20rpx;
+}
+
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border: 2rpx solid #d9d9d9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkbox.checked {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.checkbox.checked::after {
+  content: '✓';
+  color: white;
+  font-size: 24rpx;
+}
+
+.course-content {
+  flex: 1;
+  min-width: 0; /* 防止内容溢出 */
+}
+
+.course-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.course-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.course-details text {
+  background-color: #f5f5f5;
+  padding: 4rpx 10rpx;
+  border-radius: 4rpx;
+}
+
+.course-actions {
+  margin-left: 15rpx;
+}
+
+.btn-edit {
+  color: #1890ff;
+  font-size: 24rpx;
+  padding: 8rpx 15rpx;
+  border-radius: 6rpx;
+  background-color: #e6f7ff;
+  white-space: nowrap;
+}
+
+/* 导入操作 */
+.import-actions {
+  background-color: white;
+  border-radius: 12rpx;
+  padding: 25rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.selected-count {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+}
+
+.btn-import {
+  background-color: #52c41a;
+  color: white;
+  border-radius: 8rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+  width: 100%;
+}
+
+.btn-import[disabled] {
+  background-color: #b7eb8f;
+  color: #8c8c8c;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 60rpx 30rpx;
+  background-color: white;
+  border-radius: 12rpx;
+  margin: 20rpx 30rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.3;
+}
+
+.empty-title {
+  font-size: 30rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  font-weight: 500;
+}
+
+.empty-desc {
+  font-size: 26rpx;
+  color: #999;
+  line-height: 1.5;
+}

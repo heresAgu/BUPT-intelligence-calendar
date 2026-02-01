@@ -1,0 +1,104 @@
+<!-- pages/add-course/add-course.wxml -->
+<view class="add-course-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="nav-back" bindtap="onCancel">取消</view>
+    <text class="title">{{mode === 'add' ? '添加课程' : '编辑课程'}}</text>
+    <view class="nav-save" bindtap="onSave">保存</view>
+  </view>
+
+  <!-- 表单区域 -->
+  <scroll-view class="form-container" scroll-y>
+    <!-- 基本信息 -->
+    <view class="form-section">
+      <text class="section-title">📚 基本信息</text>
+      
+      <!-- 课程名称 -->
+      <view class="form-item">
+        <text class="item-label required">课程名称</text>
+        <input
+          class="input {{errors.name ? 'error' : ''}}"
+          placeholder="请输入课程名称"
+          value="{{formData.name}}"
+          data-field="name"
+          bindinput="onInputChange"
+          maxlength="20"
+        />
+        <text class="error-msg" wx:if="{{errors.name}}">{{errors.name}}</text>
+        <text class="hint" wx:if="!errors.name">例如：高等数学、大学英语</text>
+      </view>
+      
+      <!-- 授课教师 -->
+      <view class="form-item">
+        <text class="item-label">授课教师</text>
+        <input
+          class="input"
+          placeholder="请输入教师姓名"
+          value="{{formData.teacher}}"
+          data-field="teacher"
+          bindinput="onInputChange"
+          maxlength="10"
+        />
+        <text class="hint">例如：张老师、李教授</text>
+      </view>
+    </view>
+
+    <!-- 上课信息 -->
+    <view class="form-section">
+      <text class="section-title">⏰ 上课信息</text>
+      
+      <!-- 上课时间 -->
+      <view class="form-item">
+        <text class="item-label">上课时间</text>
+        <input
+          class="input"
+          placeholder="例如：周一1-2节、周二3-4节"
+          value="{{formData.time}}"
+          data-field="time"
+          bindinput="onInputChange"
+          maxlength="20"
+        />
+        <text class="hint">支持多种格式：周一1-2节、每周二上午等</text>
+      </view>
+      
+      <!-- 上课地点 -->
+      <view class="form-item">
+        <text class="item-label">上课地点</text>
+        <input
+          class="input"
+          placeholder="例如：A101、西区教学楼201"
+          value="{{formData.classroom}}"
+          data-field="classroom"
+          bindinput="onInputChange"
+          maxlength="20"
+        />
+        <text class="hint">教室编号或地点描述</text>
+      </view>
+    </view>
+
+    <!-- 课程颜色 -->
+    <view class="form-section">
+      <text class="section-title">🎨 课程颜色</text>
+      <view class="color-options">
+        <view
+          class="color-option {{formData.color === item.value ? 'selected' : ''}}"
+          wx:for="{{colorOptions}}"
+          wx:key="value"
+          data-color="{{item.value}}"
+          bindtap="onColorSelect"
+        >
+          <view class="color-dot" style="background-color: {{item.value}}"></view>
+          <text class="color-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 删除按钮（仅编辑模式） -->
+    <view class="form-section" wx:if="{{mode === 'edit'}}">
+      <view class="delete-section">
+        <button class="btn-delete" bindtap="onDelete">删除课程</button>
+        <text class="delete-hint">删除后无法恢复，相关作业也会被删除</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

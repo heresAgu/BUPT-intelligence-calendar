@@ -1,0 +1,106 @@
+<!-- pages/course-detail/course-detail.wxml -->
+<view class="course-detail-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="nav-back" bindtap="goBack">← 返回</view>
+    <text class="title">课程详情</text>
+  </view>
+
+  <!-- 课程信息卡片 -->
+  <scroll-view class="content" scroll-y>
+    <!-- 课程卡片 -->
+    <view class="course-card">
+      <view class="course-color" style="background-color: {{courseData.color}}"></view>
+      <view class="course-content">
+        <view class="course-name">{{courseData.name}}</view>
+        
+        <view class="info-section">
+          <view class="info-item" wx:if="{{courseData.teacher}}">
+            <view class="info-label">授课教师</view>
+            <view class="info-value">{{courseData.teacher}}</view>
+          </view>
+          
+          <view class="info-item" wx:if="{{courseData.time}}">
+            <view class="info-label">上课时间</view>
+            <view class="info-value">{{courseData.time}}</view>
+          </view>
+          
+          <view class="info-item" wx:if="{{courseData.classroom}}">
+            <view class="info-label">上课地点</view>
+            <view class="info-value">{{courseData.classroom}}</view>
+          </view>
+        </view>
+        
+        <!-- 统计信息 -->
+        <view class="stats-section">
+          <view class="stats-grid">
+            <view class="stat-item">
+              <view class="stat-value">{{homeworkStats.total}}</view>
+              <view class="stat-label">作业总数</view>
+            </view>
+            <view class="stat-item">
+              <view class="stat-value completed">{{homeworkStats.completed}}</view>
+              <view class="stat-label">已完成</view>
+            </view>
+            <view class="stat-item">
+              <view class="stat-value pending">{{homeworkStats.pending}}</view>
+              <view class="stat-label">待完成</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 相关作业列表 -->
+    <view class="homework-section" wx:if="{{relatedHomework.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">📋 相关作业</view>
+        <view class="section-count">{{relatedHomework.length}}个</view>
+      </view>
+      
+      <view class="homework-list">
+        <view 
+          class="homework-item" 
+          wx:for="{{relatedHomework}}" 
+          wx:key="id"
+          bindtap="viewHomework"
+          data-id="{{item.id}}"
+        >
+          <view class="homework-left">
+            <view class="status-dot {{item.completed ? 'completed' : 'pending'}}"></view>
+          </view>
+          
+          <view class="homework-content">
+            <view class="homework-title">{{item.title}}</view>
+            <view class="homework-details">
+              <view class="detail-item">
+                <view class="detail-icon">⏰</view>
+                <text>截止：{{item.deadline}}</text>
+              </view>
+              <view class="detail-item">
+                <view class="status-badge {{item.completed ? 'completed' : 'pending'}}">
+                  {{item.completed ? '已完成' : '未开始'}}
+                </view>
+              </view>
+            </view>
+          </view>
+          
+          <view class="homework-right">→</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-homework" wx:if="{{relatedHomework.length === 0}}">
+      <view class="empty-icon">📄</view>
+      <view class="empty-title">暂无相关作业</view>
+      <view class="empty-desc">此课程目前没有作业安排</view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="btn-edit" bindtap="goToEdit">编辑课程</button>
+      <button class="btn-delete" bindtap="confirmDelete">删除课程</button>
+    </view>
+  </scroll-view>
+</view>

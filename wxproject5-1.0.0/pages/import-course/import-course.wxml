@@ -1,0 +1,88 @@
+<!-- pages/import-course/import-course.wxml -->
+<view class="import-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="nav-back" bindtap="onBack">← 返回</view>
+    <view class="title">文本导入课程</view>
+  </view>
+
+  <!-- 格式说明区域 -->
+  <view class="format-guide">
+    <view class="guide-title">输入格式说明</view>
+    <view class="guide-content">
+      请每行输入一门课程，字段间用空格、逗号或制表符分隔。
+      <text class="example">例如：高等数学 张老师 周一1-2节 A101</text>
+      或：大学英语,李老师,周二3-4节,B201
+    </view>
+    <view class="guide-tip">支持字段：课程名称 教师 时间 教室 (后三项可选)</view>
+    <view class="guide-tip">注意：如果课程有多个时间请连在一起写哦</view>
+  </view>
+
+  <!-- 文本输入区域 -->
+  <view class="input-section">
+    <textarea
+      class="text-input"
+      placeholder="请在此粘贴或输入课程表文本..."
+      value="{{inputText}}"
+      bindinput="onTextInput"
+      auto-height
+      maxlength="-1"
+    />
+    <view class="input-actions">
+      <button class="btn-clear" bindtap="clearInput">清空</button>
+      <button class="btn-parse" bindtap="parseText" disabled="{{!inputText}}">解析文本</button>
+    </view>
+  </view>
+
+  <!-- 解析结果预览 -->
+  <scroll-view class="preview-section" scroll-y wx:if="{{parsedCourses.length > 0}}">
+    <view class="section-title">
+      <text>预览课程 ({{parsedCourses.length}}门)</text>
+      <view class="select-all" bindtap="toggleSelectAll">
+        <text>{{isAllSelected ? '取消全选' : '全选'}}</text>
+      </view>
+    </view>
+
+    <!-- 课程列表 -->
+    <view class="course-list">
+      <view
+        class="course-item"
+        wx:for="{{parsedCourses}}"
+        wx:key="tempId"
+        data-index="{{index}}"
+      >
+        <view class="course-select" bindtap="toggleSelect" data-index="{{index}}">
+          <view class="checkbox {{item.selected ? 'checked' : ''}}"></view>
+        </view>
+        
+        <view class="course-content" bindtap="editCourse" data-index="{{index}}">
+          <view class="course-name">{{item.name || '未命名课程'}}</view>
+          <view class="course-details">
+            <text wx:if="{{item.teacher}}">教师：{{item.teacher}}</text>
+            <text wx:if="{{item.time}}">时间：{{item.time}}</text>
+            <text wx:if="{{item.classroom}}">教室：{{item.classroom}}</text>
+          </view>
+        </view>
+        
+        <view class="course-actions">
+          <view class="btn-edit" bindtap="editCourse" data-index="{{index}}">编辑</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 导入操作 -->
+    <view class="import-actions">
+      <view class="selected-count">已选中 {{selectedCount}} 门课程</view>
+      <button class="btn-import" bindtap="confirmImport" disabled="{{selectedCount === 0}}">
+        导入选中的课程
+      </button>
+    </view>
+  </scroll-view>
+
+  <!-- 空状态/解析失败 -->
+  <view class="empty-state" wx:if="{{parsedCourses.length === 0 && hasParsed}}">
+    <view class="empty-icon">📄</view>
+    <view class="empty-title">未解析到课程</view>
+    <view class="empty-desc">请检查输入格式，或尝试用逗号/空格分隔字段</view>
+  </view>
+</view>

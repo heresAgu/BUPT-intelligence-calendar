@@ -1,0 +1,240 @@
+<!-- pages/links/links.wxml -->
+<view class="links-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="title">🔗 常用链接</view>
+    <view class="subtitle">快速访问学习资源与作业平台</view>
+  </view>
+
+  <!-- 搜索框 -->
+  <view class="search-section">
+    <input
+      class="search-input"
+      placeholder="搜索链接或平台"
+      value="{{searchKeyword}}"
+      bindinput="onSearchInput"
+      bindconfirm="onSearch"
+    />
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+
+  <!-- 分类标签 -->
+  <scroll-view class="category-tabs" scroll-x>
+    <view 
+      class="tab {{activeCategory === 'all' ? 'active' : ''}}"
+      data-category="all"
+      bindtap="changeCategory"
+    >全部</view>
+    <view 
+      class="tab {{activeCategory === 'homework' ? 'active' : ''}}"
+      data-category="homework"
+      bindtap="changeCategory"
+    >作业平台</view>
+    <view 
+      class="tab {{activeCategory === 'course' ? 'active' : ''}}"
+      data-category="course"
+      bindtap="changeCategory"
+    >课程相关</view>
+    <view 
+      class="tab {{activeCategory === 'school' ? 'active' : ''}}"
+      data-category="school"
+      bindtap="changeCategory"
+    >学校网站</view>
+    <view 
+      class="tab {{activeCategory === 'tool' ? 'active' : ''}}"
+      data-category="tool"
+      bindtap="changeCategory"
+    >工具资源</view>
+    <view 
+      class="tab {{activeCategory === 'custom' ? 'active' : ''}}"
+      data-category="custom"
+      bindtap="changeCategory"
+    >自定义</view>
+  </scroll-view>
+
+  <!-- 快捷操作 -->
+  <view class="quick-actions">
+    <view class="action-card" bindtap="addLink">
+      <view class="action-icon">➕</view>
+      <view class="action-text">添加链接</view>
+    </view>
+    <view class="action-card" bindtap="scanQRCode">
+      <view class="action-icon">📷</view>
+      <view class="action-text">扫码添加</view>
+    </view>
+    <view class="action-card" bindtap="importFromCourses">
+      <view class="action-icon">📚</view>
+      <view class="action-text">导入课程链接</view>
+    </view>
+  </view>
+
+  <!-- 链接列表 -->
+  <scroll-view class="links-list" scroll-y>
+    <!-- 最近使用 -->
+    <view class="section" wx:if="{{recentLinks.length > 0}}">
+      <view class="section-title">
+        <view class="title-text">最近使用</view>
+        <view class="title-extra">{{recentLinks.length}}个</view>
+      </view>
+      <view class="recent-grid">
+        <view 
+          class="recent-item"
+          wx:for="{{recentLinks}}"
+          wx:key="id"
+          data-index="{{index}}"
+          bindtap="openLink"
+        >
+          <view class="recent-icon" style="background-color: {{item.color || '#1890ff'}}">
+            {{item.icon || '🔗'}}
+          </view>
+          <view class="recent-info">
+            <view class="recent-name">{{item.name}}</view>
+            <view class="recent-desc">{{item.category}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 常用链接 -->
+    <view class="section">
+      <view class="section-title">
+        <view class="title-text">常用链接</view>
+        <view class="title-extra">{{filteredLinks.length}}个</view>
+      </view>
+      
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{filteredLinks.length === 0}}">
+        <view class="empty-icon">🔗</view>
+        <view class="empty-title">暂无链接</view>
+        <view class="empty-desc">点击上方按钮添加常用链接</view>
+        <button class="empty-btn" bindtap="addLink">立即添加</button>
+      </view>
+
+      <!-- 链接卡片 -->
+      <view class="link-grid" wx:else>
+        <view 
+          class="link-card"
+          wx:for="{{filteredLinks}}"
+          wx:key="id"
+          data-index="{{index}}"
+          bindtap="openLink"
+          bindlongpress="showLinkMenu"
+        >
+          <view class="card-header" style="background-color: {{item.color || '#1890ff'}}20">
+            <view class="card-icon">{{item.icon || '🔗'}}</view>
+            <view class="card-actions">
+              <view 
+                class="btn-star {{item.starred ? 'starred' : ''}}" 
+                data-id="{{item.id}}"
+                catchtap="toggleStar"
+              >
+                {{item.starred ? '★' : '☆'}}
+              </view>
+            </view>
+          </view>
+          <view class="card-content">
+            <view class="card-title">{{item.name}}</view>
+            <view class="card-url">{{formatUrl(item.url)}}</view>
+            <view class="card-tags">
+              <view class="tag">{{item.category}}</view>
+              <view class="tag">{{item.usageCount || 0}}次</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 推荐平台 -->
+    <view class="section" wx:if="{{presetPlatforms && presetPlatforms.length > 0}}">
+      <view class="section-header">
+        <view class="section-title">
+          <view class="title-text">推荐平台</view>
+          <view class="title-extra">作业平台 {{getUnaddedCount()}}个</view>
+        </view>
+        <view 
+          class="add-all-btn {{isAddingAll ? 'adding' : ''}}"
+          bindtap="addAllPlatforms"
+        >
+          {{isAddingAll ? '添加中...' : '一键添加'}}
+        </view>
+      </view>
+      <view class="platform-grid">
+        <view 
+          class="platform-card"
+          wx:for="{{presetPlatforms}}"
+          wx:key="id"
+          data-index="{{index}}"
+          bindtap="quickAddPlatform"
+        >
+          <view class="platform-icon" style="background-color: {{item.color}}20; color: {{item.color}}">
+            {{item.icon}}
+          </view>
+          <view class="platform-name">{{item.name}}</view>
+          <view class="add-btn {{item.added ? 'added' : ''}}">
+            {{item.added ? '✓' : '+'}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 添加链接模态框 -->
+  <view class="modal-overlay" wx:if="{{showAddModal}}" bindtap="closeModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-header">
+        <view class="modal-title">添加链接</view>
+        <view class="modal-close" bindtap="closeModal">×</view>
+      </view>
+      <view class="modal-body">
+        <view class="form-item">
+          <view class="form-label">链接名称</view>
+          <input 
+            class="form-input"
+            placeholder="例如：高数作业"
+            value="{{newLink.name}}"
+            bindinput="onNewLinkInput"
+            data-field="name"
+          />
+        </view>
+        <view class="form-item">
+          <view class="form-label">链接地址</view>
+          <input 
+            class="form-input"
+            placeholder="https://example.com"
+            value="{{newLink.url}}"
+            bindinput="onNewLinkInput"
+            data-field="url"
+          />
+        </view>
+        <view class="form-item">
+          <view class="form-label">分类</view>
+          <picker 
+            range="{{categoryOptions}}" 
+            value="{{newLink.categoryIndex}}" 
+            bindchange="onCategoryChange"
+          >
+            <view class="picker-input">{{categoryOptions[newLink.categoryIndex]}}</view>
+          </picker>
+        </view>
+        <view class="form-item">
+          <view class="form-label">图标</view>
+          <view class="icon-options">
+            <view 
+              class="icon-option {{newLink.icon === icon ? 'selected' : ''}}"
+              wx:for="{{iconOptions}}"
+              wx:key="*this"
+              data-icon="{{icon}}"
+              bindtap="selectIcon"
+            >
+              {{icon}}
+            </view>
+          </view>
+        </view>
+        <view class="form-actions">
+          <button class="btn-cancel" bindtap="closeModal">取消</button>
+          <button class="btn-submit" bindtap="saveLink">保存</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
